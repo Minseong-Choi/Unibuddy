@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Unibuddy Chrome Extension",
+    "version": "1.0",
+    "description": "A simple Chrome extension with React frontend and Express backend.",
+    "background": {
+      "service_worker": "background.js"
+    },
+    "permissions": [
+      "storage",
+      "activeTab"
+    ],
+    "action": {
+      "default_popup": "client/build/index.html"
+    },
+    "content_scripts": [
+      {
+        "js": ["scripts/content.js"],
+        "matches": ["<all_urls>"]
+      }
+    ]
+  }
+  
