@@ -7,15 +7,25 @@
       "service_worker": "background.js"
     },
     "permissions": [
-      "storage",
-      "activeTab"
+      "scripting"
     ],
     "action": {
-      "default_popup": "client/build/index.html"
+      "default_title": "Unibuddy 열기"
     },
     "content_scripts": [
       {
         "js": ["scripts/content.js"],
+        "matches": ["<all_urls>"]
+      }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "client/build/index.html",
+          "client/build/static/js/*",
+          "client/build/static/css/*",
+          "client/build/static/media/*"
+        ],
         "matches": ["<all_urls>"]
       }
     ]
