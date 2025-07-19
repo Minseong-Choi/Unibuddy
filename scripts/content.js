@@ -22,14 +22,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             iframe.style.position = "fixed";
             iframe.style.top = "0";
             iframe.style.right = "0";
-            iframe.style.width = "20%";
+            iframe.style.width = "400px";
             iframe.style.height = "100vh";
             iframe.style.border = "none";
             iframe.style.zIndex = "2147483647";
             iframe.style.backgroundColor = "white";
 
             document.body.appendChild(iframe);
-            document.body.style.marginRight = "20%";
+            document.body.style.marginRight = "400px";
         }
     }
 })

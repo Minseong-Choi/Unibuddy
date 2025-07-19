@@ -1,16 +1,13 @@
-chrome.action.onClicked.addListener(async (tab) => {
-    try {
-      chrome.tabs.sendMessage(tab.id, { type: "TOGGLE_SIDEBAR" }, async () => {
-        if (chrome.runtime.lastError) {
-          await chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            files: ["content.js"],
-          });
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if(changeInfo.status === "complete" && /^https?:/.test(tab.url)){
+    chrome.scripting.executeScript({
+      target: {tabId},
+      files: ["scripts/content.js"]
+    });
+  }
+});
 
-          chrome.tabs.sendMessage(tab.id, { type: "TOGGLE_SIDEBAR" });
-        }
-      });
-    } catch (e) {
-      console.error("Error executing content script:", e);
-    }
-  });
+
+chrome.action.onClicked.addListener((tab) => {
+  chrome.tabs.sendMessage(tab.id, { type: "TOGGLE_SIDEBAR" });
+});
