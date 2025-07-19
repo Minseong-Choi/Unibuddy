@@ -1,6 +1,15 @@
-import React, { useState } from 'react';
+"use client"
 
-function App() {
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+export default function Home() {
+  const navigate = useNavigate();
+
+  const handleGoToClip = () => {
+    navigate('clip');
+  }
+
   const [message, setMessage] = useState('');
 
   const fetchMessageFromServer = async () => {
@@ -14,14 +23,13 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div>
       <h1>Chrome Extension with React and Express</h1>
       <button onClick={fetchMessageFromServer}>
         Fetch Message from Server
       </button>
       {message && <p>{message}</p>}
+      <button onClick={handleGoToClip}> Go To clip </button>
     </div>
   );
 }
-
-export default App;
