@@ -2,8 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import http from 'http';
 import authRouter from './routes/auth';
 import { authMiddleware } from './middleware/auth';
+import { createWebSocketServer } from './websocket';
 
 dotenv.config();
 
@@ -18,6 +20,11 @@ app.use('/auth', authRouter);
 app.get('/me', authMiddleware, (req, res) => {
   res.json({ userId: req.userId });
 });
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+
+const server = http.createServer(app);
+
+createWebSocketServer(server);
+
+server.listen(PORT, () => {
+  console.log(`Server with WebSocket running on http://localhost:${PORT}`);
 });
