@@ -12,7 +12,7 @@ type GoogleTokenErrorMessage = {
 type Message = GoogleTokenMessage | GoogleTokenErrorMessage;
 
 export default function Home() {
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
   const [jwt, setJwt] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 

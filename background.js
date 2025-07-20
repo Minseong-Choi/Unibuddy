@@ -20,6 +20,12 @@ chrome.runtime.onMessage.addListener((message,sender)=>{
       error: errMsg,
     });
   };
+  const sendToken = (token) => {
+    chrome.tabs.sendMessage(sender.tab.id, {
+      type: 'GOOGLE_TOKEN',
+      token,
+    });
+  };
 
   chrome.identity.getAuthToken({ interactive: false }, (token) => {
     if (chrome.runtime.lastError || !token) {
