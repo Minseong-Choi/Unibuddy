@@ -27,16 +27,20 @@ router.post('/google', async (req, res) => {
             }
             else {
                 user = await db.user.create({
-                    data: { email, google_id: googleId, name, picture_url: picture }
+                    data: { email, google_id: googleId, name }
                 });
             }
         }
         const jwtToken = jsonwebtoken_1.default.sign({ sub: user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.json({ token: jwtToken });
     }
-    catch (e) {
-        console.error(e);
-        res.status(500).json({ error: 'Login failed' });
+    catch (err) {
+        console.error('🔥 /auth/google error:', err);
+        // Axios 요청 실패라면 응답 상태와 데이터도 찍어 보기
+        console.error('  axios status:', err.response?.status);
+        console.error('  axios data:  ', err.response?.data);
+        // JWT 발급 중 에러라면 err.message 로 확인
+        return res.status(500).json({ error: err.message });
     }
 });
 exports.default = router;

@@ -13,10 +13,17 @@ type GoogleTokenErrorMessage = {
 type Message = GoogleTokenMessage | GoogleTokenErrorMessage;
 
 export default function Home() {
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
   const [jwt, setJwt] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    chrome.storage.local.get(['jwt'], (result) => {
+      if(result.jwt){
+        setJwt(result.jwt as string);
+      }
+    })
+  }, []);
   useEffect(() => {
     // 메시지 수신 리스너: Message, MessageSender 타입 사용
     const listener = (
@@ -53,7 +60,7 @@ export default function Home() {
     return () => {
       chrome.runtime.onMessage.removeListener(listener);
     };
-  }, []);
+  }, [API_URL]);
 
   const handleGoogleLogin = () => {
     setError(null);
