@@ -6,6 +6,8 @@ import { PrismaClient } from '@prisma/client';
 dotenv.config(); //.env를 읽어 process.env에 로드
 const app = express();
 const db = new PrismaClient(); // prisma와 연결할 클라이언트 생성. 
+const port = process.env.PORT || 4000;
+
 
 app.use(cors(), express.json()); //.use : 미들웨어 설정, cors는 모든 요청 허용
 app.get('/', (_,res)=>res.send('OK'));

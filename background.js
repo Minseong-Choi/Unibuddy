@@ -1,15 +1,25 @@
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if(changeInfo.status === "complete" && /^https?:/.test(tab.url)){
-    chrome.scripting.executeScript({
-      target: {tabId},
-      files: ["scripts/content.js"]
-    });
-  }
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.local.set({ currentProject: null });
 });
 
+const sendToken = (token) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs[0] && tabs[0].id) {
+      chrome.tabs.sendMessage(tabs[0].id, { type: 'GOOGLE_TOKEN', token });
+    }
+  });
+};
+
+// chrome.action.onClicked.addListener((tab) => {
+//   chrome.tabs.sendMessage(tab.id, { type: "TOGGLE_SIDEBAR" });
+// });
 
 chrome.action.onClicked.addListener((tab) => {
-  chrome.tabs.sendMessage(tab.id, { type: "TOGGLE_SIDEBAR" });
+  chrome.storage.local.get("sidebarOpen", (data) => {
+    const sidebarOpen = !data.sidebarOpen;
+    chrome.storage.local.set({ sidebarOpen });
+    chrome.tabs.sendMessage(tab.id, { type: "TOGGLE_SIDEBAR", open: sidebarOpen });
+  });
 });
 
 chrome.runtime.onMessage.addListener((message,sender)=>{

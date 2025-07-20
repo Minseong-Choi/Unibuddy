@@ -7,8 +7,21 @@
       "service_worker": "background.js"
     },
     "permissions": [
-      "scripting"
+      "scripting",
+      "tabs",
+      "identity",
+      "storage"
     ],
+    "host_permissions": [
+      "http://localhost:3001/*"
+    ],
+    "oauth2": {
+      "client_id": "886209543233-a5v1n6s0a3p23j7i56j3a2h3j3j3j3j3.apps.googleusercontent.com",
+      "scopes": [
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/userinfo.profile"
+      ]
+    },
     "action": {
       "default_title": "Unibuddy 열기"
     },
