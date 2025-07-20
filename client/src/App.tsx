@@ -8,7 +8,7 @@ function App() {
     <Router>
       <CloseButton />
       <Routes>
-        <Route path='' element={<Home />} />
+        <Route path='/' element={<Home />} />
         <Route path='/clip' element={<div>Clip Page</div>} />
       </Routes>
     </Router>

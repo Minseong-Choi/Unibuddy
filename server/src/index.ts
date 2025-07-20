@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import authRouter from './routes/auth.ts';        
-import { authMiddleware } from './middleware/auth.ts';
+import authRouter from './routes/auth';        
+import { authMiddleware } from './middleware/auth';
 
 dotenv.config();
 

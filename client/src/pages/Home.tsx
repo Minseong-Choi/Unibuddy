@@ -12,6 +12,7 @@ type GoogleTokenErrorMessage = {
 type Message = GoogleTokenMessage | GoogleTokenErrorMessage;
 
 export default function Home() {
+  const API_URL = process.env.REACT_APP_API_URL;
   const [jwt, setJwt] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,7 +24,7 @@ export default function Home() {
     ) => {
       if (message.type === 'GOOGLE_TOKEN') {
         // 받은 Google Access Token으로 백엔드에 로그인 요청
-        fetch('https://your.api/auth/google', {
+        fetch(`${API_URL}/auth/google`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token: message.token }),
