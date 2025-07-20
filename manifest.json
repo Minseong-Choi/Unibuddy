@@ -29,6 +29,8 @@
         ],
         "matches": ["<all_urls>"]
       }
-    ]
+    ],
+    "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'; frame-src http://localhost:4000/;"
+    }
   }
-  
