@@ -17,6 +17,13 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    chrome.storage.local.get(['jwt'], (result) => {
+      if(result.jwt){
+        setJwt(result.jwt as string);
+      }
+    })
+  }, []);
+  useEffect(() => {
     // 메시지 수신 리스너: Message, MessageSender 타입 사용
     const listener = (
       message: Message,
@@ -52,7 +59,7 @@ export default function Home() {
     return () => {
       chrome.runtime.onMessage.removeListener(listener);
     };
-  }, []);
+  }, [API_URL]);
 
   const handleGoogleLogin = () => {
     setError(null);

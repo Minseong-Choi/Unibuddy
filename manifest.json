@@ -8,7 +8,8 @@
     },
     "permissions": [
       "identity",
-      "scripting"
+      "scripting",
+      "storage"
     ],
     "oauth2" : {
       "client_id": "629353896044-9nho2h64sddc767f860v37kk2p1pacs1.apps.googleusercontent.com",
