@@ -1,35 +1,73 @@
-"use client"
+import React, { useEffect, useState } from 'react';
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// Background ↔ UI 간에 오갈 메시지 타입 정의
+type GoogleTokenMessage = {
+  type: 'GOOGLE_TOKEN';
+  token: string;
+};
+type GoogleTokenErrorMessage = {
+  type: 'GOOGLE_TOKEN_ERROR';
+  error: string;
+};
+type Message = GoogleTokenMessage | GoogleTokenErrorMessage;
 
 export default function Home() {
-  const navigate = useNavigate();
+  const [jwt, setJwt] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleGoToClip = () => {
-    navigate('clip');
-  }
+  useEffect(() => {
+    // 메시지 수신 리스너: Message, MessageSender 타입 사용
+    const listener = (
+      message: Message,
+      sender: chrome.runtime.MessageSender
+    ) => {
+      if (message.type === 'GOOGLE_TOKEN') {
+        // 받은 Google Access Token으로 백엔드에 로그인 요청
+        fetch('https://your.api/auth/google', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: message.token }),
+        })
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error(`Server responded ${res.status}`);
+            }
+            return res.json() as Promise<{ token: string }>;
+          })
+          .then(({ token }) => {
+            setJwt(token);
+            chrome.storage.local.set({ jwt: token });
+          })
+          .catch((e: Error) => {
+            setError(e.message);
+          });
+      } else if (message.type === 'GOOGLE_TOKEN_ERROR') {
+        // 로그인 실패 또는 사용자가 팝업을 취소했을 때
+        setError(message.error);
+      }
+    };
 
-  const [message, setMessage] = useState('');
+    chrome.runtime.onMessage.addListener(listener);
+    return () => {
+      chrome.runtime.onMessage.removeListener(listener);
+    };
+  }, []);
 
-  const fetchMessageFromServer = async () => {
-    try {
-      const response = await fetch('http://localhost:3001/api/message');
-      const data = await response.json();
-      setMessage(data.message);
-    } catch (error) {
-      console.error('Error fetching from server:', error);
-    }
+  const handleGoogleLogin = () => {
+    setError(null);
+    chrome.runtime.sendMessage({ type: 'LOGIN_GOOGLE' });
   };
 
   return (
-    <div>
-      <h1>Chrome Extension with React and Express</h1>
-      <button onClick={fetchMessageFromServer}>
-        Fetch Message from Server
-      </button>
-      {message && <p>{message}</p>}
-      <button onClick={handleGoToClip}> Go To clip </button>
+    <div style={{ padding: 20 }}>
+      {!jwt ? (
+        <>
+          <button onClick={handleGoogleLogin}>Google로 로그인</button>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+        </>
+      ) : (
+        <p>로그인 성공! 🎉</p>
+      )}
     </div>
   );
 }
