@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Projects from '../components/Projects.tsx';
+import Projects from '../components/Projects_list.tsx';
 
 // Background ↔ UI 간에 오갈 메시지 타입 정의
 type GoogleTokenMessage = {
