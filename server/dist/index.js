@@ -10,6 +10,7 @@ const path_1 = __importDefault(require("path"));
 const http_1 = __importDefault(require("http"));
 const auth_1 = __importDefault(require("./routes/auth"));
 const projects_1 = __importDefault(require("./routes/projects"));
+const tags_1 = __importDefault(require("./routes/tags"));
 const auth_2 = require("./middleware/auth");
 const websocket_1 = require("./websocket");
 dotenv_1.default.config();
@@ -20,6 +21,7 @@ app.use((0, cors_1.default)(), express_1.default.json());
 app.use('/game', express_1.default.static(path_1.default.join(__dirname, '..', 'public', 'webgl')));
 app.use('/projects', projects_1.default);
 app.use('/auth', auth_1.default);
+app.use('/projects/:projectId/tags', tags_1.default);
 app.get('/me', auth_2.authMiddleware, (req, res) => {
     res.json({ userId: req.userId });
 });

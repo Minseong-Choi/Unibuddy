@@ -5,6 +5,7 @@ import path from 'path';
 import http from 'http';
 import authRouter from './routes/auth';
 import projectsRouter from './routes/projects';
+import tagsRouter from './routes/tags';
 import { authMiddleware } from './middleware/auth';
 import { createWebSocketServer } from './websocket';
 
@@ -17,6 +18,7 @@ app.use(cors(), express.json());
 app.use('/game', express.static(path.join(__dirname, '..', 'public', 'webgl')));
 app.use('/projects', projectsRouter);
 app.use('/auth', authRouter);
+app.use('/projects/:projectId/tags', tagsRouter);
 app.get('/me', authMiddleware, (req, res) => {
   res.json({ userId: req.userId });
 });
