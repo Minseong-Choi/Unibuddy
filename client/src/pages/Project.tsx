@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ClipManager } from '../components/ClipManager';
 
 interface Tag {
     id: number;
     name: string;
-  }
+}
   
 
 export default function ProjectPage(){
@@ -94,6 +95,9 @@ export default function ProjectPage(){
         />
         <button onClick={addTag} style={{ marginLeft:8 }}>추가</button>
       </div>
+      {jwt && projectId && (
+        <ClipManager projectId={projectId} jwt={jwt} tags={tags} />
+      )}
     </div>
   );
 }
