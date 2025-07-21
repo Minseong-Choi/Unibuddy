@@ -7,7 +7,7 @@ interface Room {
     turn: number;
 }
 
-const rooms: { [key: string]: Room } = {};
+export const rooms: { [key: string]: Room } = {};
 const readyStatus: { [key: string]: { [key: number]: boolean } } = {};
 const restartVotes: { [key: string]: { [key: number]: boolean } } = {};
 
@@ -18,17 +18,16 @@ export const createWebSocketServer = (server: Server) => {
         const queryObject = url.parse(req.url || '', true).query;
         const roomId = queryObject.room as string;
 
-        if (!roomId) {
+        // 유효한 roomId가 없거나, 존재하지 않는 방에 접속 시도 시 연결 거부
+        if (!roomId || !rooms[roomId]) {
+            console.log(`Connection failed: Invalid roomId: ${roomId}`);
+            ws.send(JSON.stringify({ type: "error", message: "Invalid room code." }));
             ws.close();
             return;
         }
 
-        if (!rooms[roomId]) {
-            rooms[roomId] = { clients: [], turn: 1 };
-        }
-
         if (rooms[roomId].clients.length >= 2) {
-            ws.send(JSON.stringify({ type: "full" }));
+            ws.send(JSON.stringify({ type: "error", message: "Room is full." }));
             ws.close();
             return;
         }
@@ -100,13 +99,33 @@ export const createWebSocketServer = (server: Server) => {
         });
 
         ws.on('close', () => {
-            if (rooms[roomId]) {
-                rooms[roomId].clients = rooms[roomId].clients.filter(c => c !== ws);
-                if (rooms[roomId].clients.length === 0) {
-                    delete rooms[roomId];
-                    delete readyStatus[roomId];
-                    delete restartVotes[roomId];
-                }
+            if (!roomId || !rooms[roomId]) return;
+
+            // 1. 현재 연결(ws)을 clients 목록에서 제거
+            rooms[roomId].clients = rooms[roomId].clients.filter(c => c !== ws);
+
+            // 2. 방에 남은 클라이언트 수 확인
+            const remainingClients = rooms[roomId].clients;
+
+            if (remainingClients.length === 0) {
+                // 3. 아무도 안 남았으면 방과 관련 데이터 전부 삭제
+                delete rooms[roomId];
+                delete readyStatus[roomId];
+                delete restartVotes[roomId];
+                console.log(`Room ${roomId} deleted (no clients left)`);
+            } else {
+                // 4. 상대방에게 '상대가 나감' 메시지 전송
+                remainingClients.forEach(client => {
+                    if (client.readyState === WebSocket.OPEN) {
+                        client.send(JSON.stringify({
+                            type: "gameOver",
+                            loser: playerNumber,
+                            gameOverMessage: "상대가 게임을 나갔습니다."
+                        }));
+                    }
+                });
+
+                console.log(`Client disconnected from room ${roomId}. One player remains.`);
             }
         });
     });

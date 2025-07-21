@@ -5,7 +5,7 @@ import path from 'path';
 import http from 'http';
 import authRouter from './routes/auth';
 import { authMiddleware } from './middleware/auth';
-import { createWebSocketServer } from './websocket';
+import { createWebSocketServer, rooms } from './websocket';
 
 dotenv.config();
 
@@ -20,6 +20,26 @@ app.use('/auth', authRouter);
 app.get('/me', authMiddleware, (req, res) => {
   res.json({ userId: req.userId });
 });
+
+// 방 생성 엔드포인트
+app.post('/create-room', (req, res) => {
+  const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
+  rooms[roomId] = { clients: [], turn: 1 };
+  console.log(`Room ${roomId} created`);
+  res.json({ roomId });
+});
+
+// 방 체크 엔드포인트
+app.get('/check-room/:roomId', (req, res) => {
+  const roomId = req.params.roomId;
+  if (rooms[roomId]) {
+    const isFull = rooms[roomId].clients.length >= 2;
+    res.json({ exists: true, full: isFull });
+  } else {
+    res.json({ exists: false, full: false });
+  }
+});
+
 
 const server = http.createServer(app);
 
