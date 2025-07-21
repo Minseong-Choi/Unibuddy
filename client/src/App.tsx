@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import Game from './pages/Game';
 import CloseButton from './components/CloseButton';
 import BackButton from './components/BackButton';
-import Clip from './pages/Clip';
+import ProjectPage from './pages/Project';
 
 function App() {
   return (
@@ -14,8 +14,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/game' element={<Game />} />
-        <Route path='/clip' element={<div>Clip Page</div>} />
-        <Route path='/clip/:projectId' element={<Clip />} /> 
+        <Route path='/project' element={<div>Project Page</div>} />
+        <Route path='/project/:projectId' element={<ProjectPage />} /> 
       </Routes>
     </Router>
   )

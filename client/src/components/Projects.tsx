@@ -74,7 +74,7 @@ export default function Projects({ jwt }: Props) {
 
   const selectProject = (id: number) => {
     chrome.storage.local.set({ selectedProjectId: id });
-    navigate(`/clip/${id}`);
+    navigate(`/project/${id}`);
   };
 
   return (

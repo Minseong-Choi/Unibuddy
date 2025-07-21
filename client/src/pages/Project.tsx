@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-export default function Clip(){
+export default function ProjectPage(){
     const { projectId } = useParams< {projectId: string} >();
     const [clips, setClips] = useState<any[]>([]);
 
