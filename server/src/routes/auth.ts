@@ -1,10 +1,9 @@
 import { Router, Request, Response } from 'express';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../prisma';
 
 const router = Router();
-const db = new PrismaClient();
 
 interface GoogleReq { token?: string; }
 
@@ -19,16 +18,16 @@ router.post('/google', async (req: Request<{}, {}, GoogleReq>, res: Response) =>
     );
     const { sub: googleId, email, name, picture } = profile as any;
 
-    let user = await db.user.findUnique({ where: { google_id: googleId } });
+    let user = await prisma.user.findUnique({ where: { google_id: googleId } });
     if (!user) {
-      const existing = await db.user.findUnique({ where: { email } });
+      const existing = await prisma.user.findUnique({ where: { email } });
       if (existing) {
-        user = await db.user.update({
+        user = await prisma.user.update({
           where: { id: existing.id },
           data: { google_id: googleId }
         });
       } else {
-        user = await db.user.create({
+        user = await prisma.user.create({
           data: { email, google_id: googleId, name }
         });
       }

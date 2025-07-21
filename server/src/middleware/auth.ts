@@ -7,19 +7,14 @@ declare module 'express-serve-static-core' {
   }
 }
 
-export function authMiddleware(
-  req: Request, res: Response, next: NextFunction
-) {
-  const header = req.headers.authorization;
-  if (!header?.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-  const token = header.slice(7);
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET as string) as any;
-    req.userId = payload.sub;
+export function authMiddleware(req: Request, res: Response, next: NextFunction) {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  if(!token) return res.status(401).json({ error: '토큰 필요' });
+  try{
+    const payload = jwt.verify(token, process.env.JWT_SECRET!);
+    req.userId = Number(payload.sub);
     next();
-  } catch {
-    return res.status(401).json({ error: 'Invalid token' });
+  }catch{
+    return res.status(401).json({error: '유효하지 않은 토큰'});
   }
 }
