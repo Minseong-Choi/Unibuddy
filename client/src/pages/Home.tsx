@@ -78,7 +78,12 @@ export default function Home() {
           {error && <p style={{ color: 'red' }}>{error}</p>}
         </>
       ) : (
-        <p>로그인 성공! 🎉</p>
+        <>
+          <p>로그인 성공! 🎉</p>
+          <Link to="/game">
+            <button>게임 시작하기</button>
+          </Link>
+        </>
       )}
     </div>
   );
