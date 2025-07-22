@@ -82,7 +82,7 @@
         btn.addEventListener('click', async () => {
           console.log('클립 저장 시도');  // 이 로그가 찍히는지 확인
           try {
-            const res = await fetch(
+            const saveRes = await fetch(
               `${API}/projects/${selectedProjectId}/clips`,
               {
                 method: 'POST',                                   
@@ -97,8 +97,15 @@
                 }),
               }
             );
-            if (!res.ok) throw new Error(res.statusText);
+            if (!saveRes.ok) throw new Error(res.statusText);
+            const newClip = await saveRes.json();
             console.log('저장 성공');
+
+            chrome.runtime.sendMessage({
+                type: 'CLIP_SAVED',
+                projectId: selectedProjectId,
+                clip: newClip
+            })
           } catch (err) {
             console.error('Failed to save clip', err);
           }

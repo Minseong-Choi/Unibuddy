@@ -34,6 +34,21 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
           .catch(e => setError(String(e)))
           .finally(() => setLoading(false));
       }, [projectId, jwt]);
+
+      useEffect(() => {
+        const handler = (message: any) => {
+          if (
+            message.type === 'CLIP_SAVED' &&
+            message.projectId === Number(projectId)
+          ){
+            setClips(prev => [message.clip as Clip, ...prev]);
+          }
+        };
+        chrome.runtime.onMessage.addListener(handler);
+        return () => {
+          chrome.runtime.onMessage.removeListener(handler);
+        };
+      }, [projectId]);
     
       const addClip = () => {
         if (!newUrl.trim() || !newContent.trim()) return;
