@@ -6,9 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const axios_1 = __importDefault(require("axios"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const client_1 = require("@prisma/client");
+const prisma_1 = __importDefault(require("../prisma"));
 const router = (0, express_1.Router)();
-const db = new client_1.PrismaClient();
 router.post('/google', async (req, res) => {
     const token = req.body.token;
     if (!token)
@@ -16,17 +15,17 @@ router.post('/google', async (req, res) => {
     try {
         const { data: profile } = await axios_1.default.get('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: `Bearer ${token}` } });
         const { sub: googleId, email, name, picture } = profile;
-        let user = await db.user.findUnique({ where: { google_id: googleId } });
+        let user = await prisma_1.default.user.findUnique({ where: { google_id: googleId } });
         if (!user) {
-            const existing = await db.user.findUnique({ where: { email } });
+            const existing = await prisma_1.default.user.findUnique({ where: { email } });
             if (existing) {
-                user = await db.user.update({
+                user = await prisma_1.default.user.update({
                     where: { id: existing.id },
                     data: { google_id: googleId }
                 });
             }
             else {
-                user = await db.user.create({
+                user = await prisma_1.default.user.create({
                     data: { email, google_id: googleId, name }
                 });
             }
