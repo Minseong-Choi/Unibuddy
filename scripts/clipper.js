@@ -27,10 +27,10 @@
       const y = rect.bottom + window.scrollY;
   
       // 저장해 둔 projectId, jwt 꺼내오기
-      const { selectedProjectId, jwt } = await chrome.storage.local.get(
-        ['selectedProjectId', 'jwt']
+      const { clipperEnabled, selectedProjectId, jwt } = await chrome.storage.local.get(
+        ['clipperEnabled','selectedProjectId', 'jwt']
       );
-      if (!selectedProjectId || !jwt) {
+      if (!clipperEnabled || !selectedProjectId || !jwt) {
         console.warn('No project selected or not logged in');
         return;
       }

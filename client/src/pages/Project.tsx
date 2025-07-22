@@ -17,6 +17,7 @@ export default function ProjectPage(){
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string|null>(null);
     const [clips, setClips] = useState<any[]>([]);
+    const [clipperEnabled, setClipperEnabled] = useState<boolean>(true);
 
     useEffect(() => {
         chrome.storage.local.get('jwt', ({ jwt }) => {
@@ -35,6 +36,12 @@ export default function ProjectPage(){
             .catch(err => setError(String(err)))
             .finally(() => setLoading(false));
     }, [jwt, projectId]);
+
+    const toggleClipper = () => {
+      const next = !clipperEnabled;
+      setClipperEnabled(next);
+      chrome.storage.local.set({ clipperEnabled: next });
+    };
 
     const addTag = () => {
         if (!newTag.trim() || !jwt || !projectId) return;
@@ -95,6 +102,15 @@ export default function ProjectPage(){
         />
         <button onClick={addTag} style={{ marginLeft:8 }}>추가</button>
       </div>
+      <label style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
+        <input
+          type="checkbox"
+          checked={clipperEnabled}
+          onChange={toggleClipper}
+          style={{ marginRight: 8 }}
+        />
+        클립 기능 {clipperEnabled ? '켜짐' : '꺼짐'}
+      </label>
       {jwt && projectId && (
         <ClipManager projectId={projectId} jwt={jwt} tags={tags} />
       )}

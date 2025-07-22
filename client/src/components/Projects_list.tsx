@@ -1,4 +1,4 @@
-// src/components/Projects.tsx
+// src/components/Projects_list.tsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,6 +21,10 @@ export default function Projects({ jwt }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    chrome.storage.local.set({ clipperEnabled: true });
+  },[]);
+
+  useEffect(() => {
     setLoading(true);
     fetch(`${API}/projects`, {
       headers: { Authorization: `Bearer ${jwt}` },
@@ -41,7 +45,7 @@ export default function Projects({ jwt }: Props) {
       </div>
     );
   }
-
+    
   const addProject = () => {
     if (!newName.trim()) return;
     fetch(`${API}/projects`, {
@@ -81,7 +85,7 @@ export default function Projects({ jwt }: Props) {
     <div style={{ marginTop: 24 }}>
       <h2>내 프로젝트</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-
+      
       {loading ? (
         <p>로딩 중…</p>
       ) : projects.length === 0 ? (
