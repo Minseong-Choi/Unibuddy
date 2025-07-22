@@ -1,4 +1,6 @@
+// components/ClipManager.tsx
 import React, { useEffect, useState } from 'react';
+import '../styles/ClipManager.css';
 
 export interface Clip {
   id: number;
@@ -89,65 +91,117 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
           .catch(e => setError(String(e)));
       };
 
+      const handleKeyPress = (e: React.KeyboardEvent, action: () => void) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          action();
+        }
+      };
+
     return (
-    <section>
-        <h3>클립 관리</h3>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <section className="clip-manager-section">
+            <h3 className="clip-manager-title">클립 관리</h3>
+            
+            {error && <div className="clip-error">{error}</div>}
 
-        {loading ? (
-        <p>클립 불러오는 중…</p>
-        ) : (
-        <ul style={{ paddingLeft: 0 }}>
-            {clips.map(c => (
-            <li
-                key={c.id}
-                style={{
-                marginBottom: 12,
-                borderBottom: '1px solid #eee',
-                paddingBottom: 8,
-                }}
-            >
-                <div>
-                <strong>{c.tag || '—'}</strong>{' '}
-                <small>{new Date(c.createdAt).toLocaleString()}</small>
+            {loading ? (
+                <div className="clip-loading">
+                    <div className="clip-loading-spinner"></div>
+                    클립 불러오는 중…
                 </div>
-                <div>
-                <a href={c.url} target="_blank" rel="noreferrer">
-                    {c.url}
-                </a>
+            ) : clips.length === 0 ? (
+                <div className="clips-empty">
+                    <div className="clips-empty-icon">📎</div>
+                    <div className="clips-empty-text">저장된 클립이 없습니다</div>
                 </div>
-                <div style={{ margin: '4px 0' }}>{c.content}</div>
-                <button onClick={() => deleteClip(c.id)}>삭제</button>
-            </li>
-            ))}
-        </ul>
-        )}
+            ) : (
+                <div className="clips-list">
+                    {clips.map(c => (
+                        <div key={c.id} className="clip-item">
+                            <div className="clip-header">
+                                <div className="clip-meta">
+                                    <span className={`clip-tag ${!c.tag ? 'no-tag' : ''}`}>
+                                        {c.tag || '태그 없음'}
+                                    </span>
+                                    <span className="clip-date">
+                                        {new Date(c.createdAt).toLocaleDateString('ko-KR', {
+                                            year: 'numeric',
+                                            month: 'short',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}
+                                    </span>
+                                </div>
+                                <button 
+                                    className="clip-delete-btn"
+                                    onClick={() => deleteClip(c.id)}
+                                >
+                                    삭제
+                                </button>
+                            </div>
+                            
+                            <div className="clip-url">
+                                <a 
+                                    href={c.url} 
+                                    target="_blank" 
+                                    rel="noreferrer"
+                                    className="clip-url-link"
+                                >
+                                    {c.url}
+                                </a>
+                            </div>
+                            
+                            <div className="clip-content">{c.content}</div>
+                        </div>
+                    ))}
+                </div>
+            )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-        <select value={newClipTag} onChange={e => setNewClipTag(e.target.value)}>
-            <option value="">-- 태그 선택 (선택사항) --</option>
-            {tags.map(t => (
-            <option key={t.id} value={t.name}>
-                {t.name}
-            </option>
-            ))}
-        </select>
-        <input
-            style={{ padding: 4 }}
-            type="text"
-            value={newUrl}
-            onChange={e => setNewUrl(e.target.value)}
-            placeholder="URL 입력"
-        />
-        <textarea
-            style={{ padding: 4 }}
-            rows={3}
-            value={newContent}
-            onChange={e => setNewContent(e.target.value)}
-            placeholder="Content 입력"
-        />
-        <button onClick={addClip}>클립 추가</button>
-        </div>
-    </section>
+            <div className="clip-add-form">
+                <h4 className="clip-add-title">새 클립 추가</h4>
+                
+                <div className="clip-form-group">
+                    <select 
+                        className="clip-select"
+                        value={newClipTag} 
+                        onChange={e => setNewClipTag(e.target.value)}
+                    >
+                        <option value="">-- 태그 선택 (선택사항) --</option>
+                        {tags.map(t => (
+                            <option key={t.id} value={t.name}>
+                                {t.name}
+                            </option>
+                        ))}
+                    </select>
+                    
+                    <input
+                        className="clip-input"
+                        type="text"
+                        value={newUrl}
+                        onChange={e => setNewUrl(e.target.value)}
+                        placeholder="URL 입력"
+                        onKeyPress={e => handleKeyPress(e, addClip)}
+                    />
+                    
+                    <textarea
+                        className="clip-textarea"
+                        rows={4}
+                        value={newContent}
+                        onChange={e => setNewContent(e.target.value)}
+                        placeholder="클립 내용을 입력하세요..."
+                        onKeyPress={e => handleKeyPress(e, addClip)}
+                    />
+                    
+                    <button 
+                        className="clip-submit-btn"
+                        onClick={addClip}
+                        disabled={!newUrl.trim() || !newContent.trim()}
+                    >
+                        클립 추가
+                    </button>
+                </div>
+            </div>
+        </section>
     );
 };

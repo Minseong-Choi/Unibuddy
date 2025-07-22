@@ -1,6 +1,8 @@
+// pages/Home.tsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Projects from '../components/Projects_list.tsx';
+import '../styles/Home.css'; // CSS 파일 import
 
 // Background ↔ UI 간에 오갈 메시지 타입 정의
 type GoogleTokenMessage = {
@@ -25,14 +27,13 @@ export default function Home() {
       }
     })
   }, []);
+
   useEffect(() => {
-    // 메시지 수신 리스너: Message, MessageSender 타입 사용
     const listener = (
       message: Message,
       sender: chrome.runtime.MessageSender
     ) => {
       if (message.type === 'GOOGLE_TOKEN') {
-        // 받은 Google Access Token으로 백엔드에 로그인 요청
         fetch(`${API_URL}/auth/google`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -52,7 +53,6 @@ export default function Home() {
             setError(e.message);
           });
       } else if (message.type === 'GOOGLE_TOKEN_ERROR') {
-        // 로그인 실패 또는 사용자가 팝업을 취소했을 때
         setError(message.error);
       }
     };
@@ -69,24 +69,72 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      {!jwt ? (
-        <>
-          <button onClick={handleGoogleLogin}>Google로 로그인</button>
-          <Link to="/game">
-            <button>게임 시작하기</button>
-          </Link>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-        </>
-      ) : (
-        <>
-          <p>로그인 성공! 🎉</p>
-          <Link to="/game">
-            <button>게임 시작하기</button>
-          </Link>
-          <Projects jwt={jwt} />
-        </>
-      )}
+    <div className="home-container">
+      {/* Header */}
+      <div className="header">
+        <div className="header-brand">
+          <div className="brand-icon">📎</div>
+          <h1 className="brand-title">UniClip</h1>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="main-content">
+        {!jwt ? (
+          <div className="welcome-container">
+            <div className="welcome-card">
+              <div className="welcome-icon">🚀</div>
+              <h2 className="welcome-title">환영합니다!</h2>
+              <p className="welcome-description">
+                웹 자료조사와 게임을 즐겨보세요. 시작하려면 구글 계정으로 로그인해주세요.
+              </p>
+              
+              <div className="login-section">
+                <button className="btn-primary" onClick={handleGoogleLogin}>
+                  🔐 Google로 로그인
+                </button>
+              </div>
+
+              <div className="divider">
+                <div className="divider-line"></div>
+                <span className="divider-text">또는</span>
+                <div className="divider-line"></div>
+              </div>
+
+              <Link to="/game">
+                <button className="btn-secondary">
+                  🎮 게임 시작하기
+                </button>
+              </Link>
+            </div>
+
+            {error && (
+              <div className="error-message">
+                ⚠️ {error}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div>
+            <div className="success-card">
+              <div className="success-header">
+                <div className="success-info">
+                  <span className="success-icon">🎉</span>
+                  <span className="success-text">로그인 성공!</span>
+                </div>
+                <Link to="/game">
+                  <button className="btn-game">🎮 게임 시작</button>
+                </Link>
+              </div>
+              <p className="success-description">
+                프로젝트를 관리하고 웹 자료를 수집해보세요.
+              </p>
+            </div>
+
+            <Projects jwt={jwt} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

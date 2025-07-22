@@ -1,12 +1,13 @@
+// pages/Project.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ClipManager } from '../components/ClipManager';
+import '../styles/Project.css';
 
 interface Tag {
     id: number;
     name: string;
 }
-  
 
 export default function ProjectPage(){
     const API = process.env.REACT_APP_API_URL || 'http://localhost:4000';
@@ -74,46 +75,80 @@ export default function ProjectPage(){
             .catch(err => setError(String(err)));
     };
 
+    const handleKeyPress = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            addTag();
+        }
+    };
+
     return (
-    <div style={{ padding: 20 }}>
-      <h2>프로젝트 {projectId} - 태그 관리</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className="project-container">
+          <div className="project-header">
+              <h2 className="project-title">프로젝트 {projectId}</h2>
+          </div>
 
-      {loading
-        ? <p>태그 불러오는 중…</p>
-        : (
-          <ul style={{ paddingLeft: 0 }}>
-            {tags.map(t => (
-              <li key={t.id} style={{ display:'flex', alignItems:'center', marginBottom:4 }}>
-                <span style={{ flex:1 }}>{t.name}</span>
-                <button onClick={() => deleteTag(t.id)}>삭제</button>
-              </li>
-            ))}
-          </ul>
-        )
-      }
+          <div className="clipper-control-box">
+              <div className="clipper-toggle-container">
+                  <span className="clipper-toggle-label">클립 기능</span>
+                  <div 
+                      className={`toggle-switch ${clipperEnabled ? 'active' : ''}`}
+                      onClick={toggleClipper}
+                  >
+                      <div className="toggle-switch-slider">
+                          {clipperEnabled ? 'ON' : 'OFF'}
+                      </div>
+                  </div>
+              </div>
+              <span className={`toggle-status ${clipperEnabled ? 'enabled' : 'disabled'}`}>
+                  {clipperEnabled ? '켜짐' : '꺼짐'}
+              </span>
+          </div>
 
-      <div style={{ display:'flex', marginTop:12 }}>
-        <input
-          value={newTag}
-          onChange={e => setNewTag(e.target.value)}
-          placeholder="새 태그 이름"
-          style={{ flex:1, padding:4 }}
-        />
-        <button onClick={addTag} style={{ marginLeft:8 }}>추가</button>
+          <div className="tags-section">
+              <h3 className="tags-title">태그 관리</h3>
+              
+              {error && <div className="tags-error">{error}</div>}
+
+              {loading ? (
+                  <div className="tags-loading">태그 불러오는 중…</div>
+              ) : (
+                  <div className="tags-list">
+                      {tags.length === 0 ? (
+                          <div className="tags-empty">아직 생성된 태그가 없습니다</div>
+                      ) : (
+                          tags.map(t => (
+                              <div key={t.id} className="tag-pill">
+                                  <span className="tag-name">{t.name}</span>
+                                  <button 
+                                      className="tag-delete-btn"
+                                      onClick={() => deleteTag(t.id)}
+                                      title="태그 삭제"
+                                  >
+                                      ✕
+                                  </button>
+                              </div>
+                          ))
+                      )}
+                  </div>
+              )}
+
+              <div className="tag-add-form">
+                  <input
+                      className="tag-input"
+                      value={newTag}
+                      onChange={e => setNewTag(e.target.value)}
+                      placeholder="새 태그 이름"
+                      onKeyPress={handleKeyPress}
+                  />
+                  <button className="tag-add-btn" onClick={addTag}>
+                      추가
+                  </button>
+              </div>
+          </div>
+
+          {jwt && projectId && (
+              <ClipManager projectId={projectId} jwt={jwt} tags={tags} />
+          )}
       </div>
-      <label style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
-        <input
-          type="checkbox"
-          checked={clipperEnabled}
-          onChange={toggleClipper}
-          style={{ marginRight: 8 }}
-        />
-        클립 기능 {clipperEnabled ? '켜짐' : '꺼짐'}
-      </label>
-      {jwt && projectId && (
-        <ClipManager projectId={projectId} jwt={jwt} tags={tags} />
-      )}
-    </div>
   );
 }

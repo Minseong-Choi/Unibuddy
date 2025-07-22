@@ -1,6 +1,7 @@
 // src/components/Projects_list.tsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/Projects_list.css'; // CSS 파일 import
 
 interface Project {
   id: number;
@@ -37,9 +38,12 @@ export default function Projects({ jwt }: Props) {
 
   if (!jwt) {
     return (
-      <div style={{ marginTop: 24, textAlign: 'center' }}>
-        <p>프로젝트를 보려면 로그인해주세요.</p>
-        <button onClick={() => chrome.runtime.sendMessage({ type: 'LOGIN_GOOGLE' })}>
+      <div className="projects-login-prompt">
+        <p className="projects-login-text">프로젝트를 보려면 로그인해주세요.</p>
+        <button 
+          className="projects-login-btn"
+          onClick={() => chrome.runtime.sendMessage({ type: 'LOGIN_GOOGLE' })}
+        >
           Google로 로그인
         </button>
       </div>
@@ -81,42 +85,63 @@ export default function Projects({ jwt }: Props) {
     navigate(`/project/${id}`);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      addProject();
+    }
+  };
+
   return (
-    <div style={{ marginTop: 24 }}>
-      <h2>내 프로젝트</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="projects-section">
+      <h2 className="projects-title">내 프로젝트</h2>
+      
+      {error && (
+        <div className="projects-error">{error}</div>
+      )}
       
       {loading ? (
-        <p>로딩 중…</p>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          로딩 중…
+        </div>
       ) : projects.length === 0 ? (
-        <p>생성된 프로젝트가 없습니다.</p>
+        <div className="empty-state">
+          <div className="empty-icon">📁</div>
+          생성된 프로젝트가 없습니다.
+        </div>
       ) : (
-        <ul style={{ paddingLeft: 0 }}>
+        <div className="projects-list">
           {projects.map(p => (
-            <li
-              key={p.id}
-              style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}
-            >
-              <span
+            <div key={p.id} className="project-card">
+              <div 
+                className="project-info"
                 onClick={() => selectProject(p.id)}
-                style={{ flex: 1, cursor: 'pointer' }}
               >
-                {p.name}
-              </span>
-              <button onClick={() => deleteProject(p.id)}>삭제</button>
-            </li>
+                <div className="project-name">{p.name}</div>
+                <div className="project-date">
+                  {new Date(p.createdAt).toLocaleDateString('ko-KR')}
+                </div>
+              </div>
+              <button 
+                className="btn-delete"
+                onClick={() => deleteProject(p.id)}
+              >
+                삭제
+              </button>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
 
-      <div style={{ display: 'flex', marginTop: 12 }}>
+      <div className="add-project-form">
         <input
+          className="project-input"
           value={newName}
           onChange={e => setNewName(e.target.value)}
           placeholder="새 프로젝트 이름"
-          style={{ flex: 1, padding: 4 }}
+          onKeyPress={handleKeyPress}
         />
-        <button onClick={addProject} style={{ marginLeft: 8 }}>
+        <button className="btn-add" onClick={addProject}>
           추가
         </button>
       </div>

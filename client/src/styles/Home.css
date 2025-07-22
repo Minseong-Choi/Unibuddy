@@ -1,0 +1,462 @@
+/* styles/Home.css */
+
+/* 기본 스타일 */
+.home-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    color: #1e293b;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  /* 헤더 스타일 */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  }
+  
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+  }
+  
+  .brand-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.025em;
+  }
+  
+  .close-button {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.5rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .close-button:hover {
+    background: #e2e8f0;
+    color: #475569;
+    transform: scale(1.05);
+  }
+  
+  /* 메인 컨텐츠 */
+  .main-content {
+    padding: 2rem 1.5rem;
+  }
+  
+  /* 로그인 전 화면 */
+  .welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  
+  .welcome-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(20px);
+    width: 100%;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+  }
+  
+  .welcome-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .welcome-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.025em;
+  }
+  
+  .welcome-description {
+    color: #64748b;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+  
+  .login-section {
+    margin-bottom: 2rem;
+  }
+  
+  .divider {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0;
+    color: #94a3b8;
+  }
+  
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: #e2e8f0;
+  }
+  
+  .divider-text {
+    padding: 0 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  /* 버튼 스타일 */
+  .btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    width: 100%;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  }
+  
+  .btn-secondary {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    color: #475569;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  .btn-secondary:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+  }
+  
+  .btn-game {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 1.25rem;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    box-shadow: 0 3px 10px rgba(6, 182, 212, 0.3);
+  }
+  
+  .btn-game:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(6, 182, 212, 0.4);
+  }
+  
+  /* 에러 메시지 */
+  .error-message {
+    margin-top: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 12px;
+    color: #dc2626;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+  }
+  
+  /* 로그인 후 화면 */
+  .success-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+  }
+  
+  .success-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  
+  .success-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .success-icon {
+    font-size: 1.5rem;
+  }
+  
+  .success-text {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+  
+  .success-description {
+    color: #64748b;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  
+  /* 프로젝트 섹션 */
+  .projects-section {
+    margin-top: 2rem;
+  }
+  
+  .projects-title {
+    color: #0f172a;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.025em;
+  }
+  
+  .projects-error {
+    color: #dc2626;
+    background: rgba(239, 68, 68, 0.1);
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  /* 로딩 */
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    color: #64748b;
+  }
+  
+  .loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e2e8f0;
+    border-top: 2px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 0.75rem;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* 빈 상태 */
+  .empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    color: #64748b;
+  }
+  
+  .empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  
+  /* 프로젝트 리스트 */
+  .projects-list {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .project-card {
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(20px);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .project-card:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(59, 130, 246, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
+  }
+  
+  .project-info {
+    flex: 1;
+    color: #0f172a;
+    font-weight: 500;
+  }
+  
+  .project-name {
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  
+  .project-date {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 400;
+  }
+  
+  .btn-delete {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    color: #dc2626;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+  }
+  
+  .btn-delete:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+  
+  /* 프로젝트 추가 폼 */
+  .add-project-form {
+    display: flex;
+    gap: 0.75rem;
+  }
+  
+  .project-input {
+    flex: 1;
+    padding: 0.875rem 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    color: #0f172a;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.2s ease;
+    font-weight: 500;
+  }
+  
+  .project-input::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+  }
+  
+  .project-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background: #ffffff;
+  }
+  
+  .btn-add {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 0.875rem 1.5rem;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    box-shadow: 0 3px 10px rgba(59, 130, 246, 0.3);
+    white-space: nowrap;
+  }
+  
+  .btn-add:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+  }
+  
+  /* Projects가 jwt 없을 때 */
+  .projects-login-prompt {
+    margin-top: 2rem;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 16px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(20px);
+  }
+  
+  .projects-login-text {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+  
+  .projects-login-btn {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 0.875rem 2rem;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+  }
+  
+  .projects-login-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  }

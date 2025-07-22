@@ -1,0 +1,255 @@
+/* pages/Project.css */
+
+.project-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: #1e293b;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  padding: 2rem 1.5rem;
+}
+
+.project-header {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+.project-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+}
+
+/* 클립 기능 박스 - 별도 분리 */
+.clipper-control-box {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.clipper-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.clipper-toggle-label {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  background: #e2e8f0;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.toggle-switch.active {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  border-color: #059669;
+}
+
+.toggle-switch-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.toggle-switch.active .toggle-switch-slider {
+  transform: translateX(30px);
+  color: #059669;
+}
+
+.toggle-status {
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-width: 50px;
+}
+
+.toggle-status.enabled {
+  color: #059669;
+}
+
+.toggle-status.disabled {
+  color: #dc2626;
+}
+
+/* 태그 섹션 - 컴팩트 버전 */
+.tags-section {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+.tags-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.tags-error {
+  color: #dc2626;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.tags-loading {
+  color: #64748b;
+  font-weight: 500;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+/* 태그 목록 - 가로 배열 */
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  min-height: 40px;
+  align-items: flex-start;
+}
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  transition: all 0.2s ease;
+}
+
+.tag-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.tag-name {
+  white-space: nowrap;
+}
+
+.tag-delete-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  color: white;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.tag-delete-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* 태그 추가 폼 - 컴팩트 */
+.tag-add-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.tag-input {
+  flex: 1;
+  max-width: 200px;
+  padding: 0.7rem 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #e2e8f0;
+  border-radius: 20px;
+  color: #0f172a;
+  font-size: 0.85rem;
+  outline: none;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.tag-input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.tag-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: #ffffff;
+}
+
+.tag-add-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border: none;
+  border-radius: 20px;
+  padding: 0.7rem 1.25rem;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  white-space: nowrap;
+}
+
+.tag-add-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.tags-empty {
+  color: #94a3b8;
+  font-style: italic;
+  font-size: 0.9rem;
+  padding: 1rem 0;
+}

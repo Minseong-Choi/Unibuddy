@@ -1,0 +1,44 @@
+/* components/CloseButton.css */
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 9999;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 8px;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .close-button:hover {
+    background: #e2e8f0;
+    color: #475569;
+    transform: scale(1.05);
+  }
+  
+  .close-button:active {
+    transform: scale(0.95);
+  }
+  
+  /* 다크 테마용 (필요시) */
+  .close-button.dark {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #94a3b8;
+  }
+  
+  .close-button.dark:hover {
+    background: #334155;
+    color: #cbd5e1;
+  }

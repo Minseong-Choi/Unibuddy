@@ -1,0 +1,210 @@
+/* styles/Projects.css */
+
+/* 프로젝트 섹션 */
+.projects-section {
+  margin-top: 2rem;
+}
+
+.projects-title {
+  color: #0f172a;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
+}
+
+.projects-error {
+  color: #dc2626;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* 로딩 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  color: #64748b;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e2e8f0;
+  border-top: 2px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 0.75rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 빈 상태 */
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  color: #64748b;
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* 프로젝트 리스트 */
+.projects-list {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-card {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(20px);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.project-card:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(59, 130, 246, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
+}
+
+.project-info {
+  flex: 1;
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.project-name {
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.project-date {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.btn-delete {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  color: #dc2626;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.btn-delete:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* 프로젝트 추가 폼 */
+.add-project-form {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.project-input {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  color: #0f172a;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.project-input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.project-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: #ffffff;
+}
+
+.btn-add {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border: none;
+  border-radius: 10px;
+  padding: 0.875rem 1.5rem;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  box-shadow: 0 3px 10px rgba(59, 130, 246, 0.3);
+  white-space: nowrap;
+}
+
+.btn-add:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+}
+
+/* Projects가 jwt 없을 때 */
+.projects-login-prompt {
+  margin-top: 2rem;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(20px);
+}
+
+.projects-login-text {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.projects-login-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem 2rem;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+}
+
+.projects-login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
