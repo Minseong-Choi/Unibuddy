@@ -1,4 +1,4 @@
-// components/ClipManager.tsx
+// components/ClipManager.tsx - Compact Version
 import React, { useEffect, useState } from 'react';
 import '../styles/ClipManager.css';
 
@@ -98,6 +98,15 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
         }
       };
 
+      const openUrl = (url: string) => {
+        window.open(url, '_blank');
+      };
+
+      const truncateUrl = (url: string) => {
+        if (url.length <= 25) return url;
+        return url.substring(0, 25) + '...';
+      };
+
     return (
         <section className="clip-manager-section">
             <h3 className="clip-manager-title">클립 관리</h3>
@@ -107,7 +116,7 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
             {loading ? (
                 <div className="clip-loading">
                     <div className="clip-loading-spinner"></div>
-                    클립 불러오는 중…
+                    로딩 중...
                 </div>
             ) : clips.length === 0 ? (
                 <div className="clips-empty">
@@ -125,7 +134,6 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
                                     </span>
                                     <span className="clip-date">
                                         {new Date(c.createdAt).toLocaleDateString('ko-KR', {
-                                            year: 'numeric',
                                             month: 'short',
                                             day: 'numeric',
                                             hour: '2-digit',
@@ -142,14 +150,15 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
                             </div>
                             
                             <div className="clip-url">
-                                <a 
-                                    href={c.url} 
-                                    target="_blank" 
-                                    rel="noreferrer"
-                                    className="clip-url-link"
+                                <button 
+                                    className="clip-url-btn"
+                                    onClick={() => openUrl(c.url)}
+                                    title={c.url}
                                 >
-                                    {c.url}
-                                </a>
+                                    <span className="clip-url-text">
+                                        {truncateUrl(c.url)}
+                                    </span>
+                                </button>
                             </div>
                             
                             <div className="clip-content">{c.content}</div>
@@ -167,7 +176,7 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
                         value={newClipTag} 
                         onChange={e => setNewClipTag(e.target.value)}
                     >
-                        <option value="">-- 태그 선택 (선택사항) --</option>
+                        <option value="">🏷️ 태그 선택 (선택사항)</option>
                         {tags.map(t => (
                             <option key={t.id} value={t.name}>
                                 {t.name}
@@ -180,16 +189,16 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
                         type="text"
                         value={newUrl}
                         onChange={e => setNewUrl(e.target.value)}
-                        placeholder="URL 입력"
+                        placeholder="🔗 URL 입력"
                         onKeyPress={e => handleKeyPress(e, addClip)}
                     />
                     
                     <textarea
                         className="clip-textarea"
-                        rows={4}
+                        rows={3}
                         value={newContent}
                         onChange={e => setNewContent(e.target.value)}
-                        placeholder="클립 내용을 입력하세요..."
+                        placeholder="📝 클립 내용을 입력하세요..."
                         onKeyPress={e => handleKeyPress(e, addClip)}
                     />
                     
@@ -198,7 +207,7 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
                         onClick={addClip}
                         disabled={!newUrl.trim() || !newContent.trim()}
                     >
-                        클립 추가
+                        ✨ 클립 추가
                     </button>
                 </div>
             </div>

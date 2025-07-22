@@ -19,12 +19,13 @@ export default function ProjectPage(){
     const [error, setError] = useState<string|null>(null);
     const [clips, setClips] = useState<any[]>([]);
     const [clipperEnabled, setClipperEnabled] = useState<boolean>(true);
+    const [projectName, setProjectName] = useState<string>('');
 
     useEffect(() => {
         chrome.storage.local.get('jwt', ({ jwt }) => {
           setJwt(jwt || null);
         });
-      }, []);
+    }, []);
     
     useEffect(() => {
         if (!jwt || !projectId) return;
@@ -36,6 +37,15 @@ export default function ProjectPage(){
             .then(setTags)
             .catch(err => setError(String(err)))
             .finally(() => setLoading(false));
+        fetch(`${API}/projects/${projectId}`, {
+          headers: { Authorization: `Bearer ${jwt}`},
+        })
+          .then(res => {
+            if(!res.ok) throw new Error(res.statusText);
+            return res.json() as Promise<{ id: number; name: string}>;
+          })
+          .then(data => setProjectName(data.name))
+          .catch(console.error);
     }, [jwt, projectId]);
 
     const toggleClipper = () => {
@@ -84,7 +94,7 @@ export default function ProjectPage(){
     return (
       <div className="project-container">
           <div className="project-header">
-              <h2 className="project-title">프로젝트 {projectId}</h2>
+              <h2 className="project-title">{projectName}</h2>
           </div>
 
           <div className="clipper-control-box">

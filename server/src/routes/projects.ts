@@ -14,6 +14,22 @@ router.get('/', async (req, res) => {
     res.json(list);
 });
 
+router.get('/:id', async (req, res) => {
+    const userId    = (req as any).userId;
+    const projectId = Number(req.params.id);
+
+    const project = await prisma.project.findFirst({
+        where: { id: projectId, userId },
+        select: { id: true, name: true, createdAt: true },
+      });
+    
+      if (!project) {
+        return res.status(404).json({ error: '프로젝트를 찾을 수 없거나 권한이 없습니다.' });
+      }
+      res.json(project);
+});
+
+
 router.post('/', async (req, res) => {
     const userId = (req as any).userId;
     const { name } = req.body;
