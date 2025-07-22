@@ -23,6 +23,7 @@ router.get('/', async (req, res) => {
     res.json(clips);
 });
 router.post('/', async (req, res) => {
+    console.log('body:', req.body);
     const projectId = Number(req.params.projectId);
     const userId = req.userId;
     const { tag, url, content } = req.body;

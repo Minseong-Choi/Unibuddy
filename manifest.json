@@ -20,10 +20,16 @@
     },
     "content_scripts": [
       {
-        "js": ["scripts/content.js"],
+        "js": [
+          "scripts/content.js",
+          "scripts/clipper.js"
+        ],
         "matches": ["<all_urls>"],
         "run_at": "document_idle"
       }
+    ],
+    "host_permissions": [
+      "http://localhost:4000/*"
     ],
     "web_accessible_resources": [
       {
@@ -37,6 +43,6 @@
       }
     ],
     "content_security_policy": {
-      "extension_pages": "script-src 'self'; object-src 'self'; frame-src http://localhost:4000/;"
-    }
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' http://localhost:4000; frame-src http://localhost:4000/"
+  }
   }
