@@ -29,6 +29,24 @@ app.use('/projects/:projectId/clips', clips_1.default);
 app.get('/me', auth_2.authMiddleware, (req, res) => {
     res.json({ userId: req.userId });
 });
+// 방 생성 엔드포인트
+app.post('/create-room', (req, res) => {
+    const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
+    websocket_1.rooms[roomId] = { clients: [], turn: 1 };
+    console.log(`Room ${roomId} created`);
+    res.json({ roomId });
+});
+// 방 체크 엔드포인트
+app.get('/check-room/:roomId', (req, res) => {
+    const roomId = req.params.roomId;
+    if (websocket_1.rooms[roomId]) {
+        const isFull = websocket_1.rooms[roomId].clients.length >= 2;
+        res.json({ exists: true, full: isFull });
+    }
+    else {
+        res.json({ exists: false, full: false });
+    }
+});
 const server = http_1.default.createServer(app);
 (0, websocket_1.createWebSocketServer)(server);
 server.listen(PORT, () => {
