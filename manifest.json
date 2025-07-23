@@ -44,6 +44,6 @@
       }
     ],
     "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://unibuddygame.duckdns.org:8443; frame-src https://unibuddygame.duckdns.org:8443"
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://unibuddygame.duckdns.org:8443 http://localhost:4000; frame-src https://unibuddygame.duckdns.org:8443 http://localhost:4000"
   }
   }
