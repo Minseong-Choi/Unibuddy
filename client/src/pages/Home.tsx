@@ -68,6 +68,11 @@ export default function Home() {
     chrome.runtime.sendMessage({ type: 'LOGIN_GOOGLE' });
   };
 
+  const handleLogout = () => {
+    chrome.storage.local.remove(['jwt','selectedProjectId']);
+    setJwt(null);
+  };
+
   return (
     <div className="home-container">
       {/* Header */}
@@ -122,15 +127,14 @@ export default function Home() {
                   <span className="success-icon">🎉</span>
                   <span className="success-text">로그인 성공!</span>
                 </div>
-                <button onClick={() => {
-                  chrome.storage.local.remove(['jwt','selectedProjectId']);
-                  setJwt(null);
-                }}>
-                  로그아웃
-                </button>
-                <Link to="/game">
-                  <button className="btn-game">🎮 게임 시작</button>
-                </Link>
+                <div className="success-actions">
+                  <Link to="/game">
+                    <button className="btn-game">🎮 게임 시작</button>
+                  </Link>
+                  <button className="btn-logout" onClick={handleLogout}>
+                    🚪 로그아웃
+                  </button>
+                </div>
               </div>
               <p className="success-description">
                 프로젝트를 관리하고 웹 자료를 수집해보세요.
