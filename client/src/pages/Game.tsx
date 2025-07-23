@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Game() {
-  // 로컬 서버에서 호스팅되는 게임의 URL
-  const gameUrl = 'http://localhost:4000/game/';
+  // 서버에서 호스팅되는 게임의 URL
+  const gameUrl = process.env.REACT_APP_API_URL + '/game/'
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor: '#333' }}>

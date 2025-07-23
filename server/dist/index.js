@@ -50,5 +50,5 @@ app.get('/check-room/:roomId', (req, res) => {
 const server = http_1.default.createServer(app);
 (0, websocket_1.createWebSocketServer)(server);
 server.listen(PORT, () => {
-    console.log(`Server with WebSocket running on http://localhost:${PORT}`);
+    console.log(`Server with WebSocket running on http://34.47.75.182:${PORT}`);
 });
