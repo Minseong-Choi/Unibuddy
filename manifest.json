@@ -29,7 +29,7 @@
       }
     ],
     "host_permissions": [
-      "http://localhost:4000/*"
+      "http://34.47.75.182:4000/*"
     ],
     "web_accessible_resources": [
       {
@@ -43,6 +43,6 @@
       }
     ],
     "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' http://localhost:4000; frame-src http://localhost:4000/"
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' http://34.47.75.182:4000; frame-src http://34.47.75.182:4000"
   }
   }
