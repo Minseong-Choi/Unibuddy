@@ -25,6 +25,7 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [isAddFormExpanded, setIsAddFormExpanded] = useState(false);
+    const [filterTag, setFilterTag] = useState<string>('');
 
     useEffect(() => {
         if (!jwt) return;
@@ -53,6 +54,10 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
         };
       }, [projectId]);
     
+      const filteredClips = filterTag
+        ? clips.filter(c => c.tag === filterTag)
+        : clips;
+
       const addClip = () => {
         if (!newUrl.trim() || !newContent.trim()) return;
         fetch(`${API}/projects/${projectId}/clips`, {
@@ -116,6 +121,23 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
     return (
         <section className="clip-manager-section">
             <h3 className="clip-manager-title">클립 관리</h3>
+
+            <div className="clip-filter">
+            <label>
+                필터:
+                <select
+                    value={filterTag}
+                    onChange={e => setFilterTag(e.target.value)}
+                >
+                    <option value="">—전체 보기—</option>
+                    {tags.map(t => (
+                        <option key={t.id} value={t.name}>
+                            {t.name}
+                        </option>
+                    ))}
+                </select>
+            </label>
+        </div>
             
             {error && <div className="clip-error">{error}</div>}
 
@@ -128,10 +150,11 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
                 <div className="clips-empty">
                     <div className="clips-empty-icon">📎</div>
                     <div className="clips-empty-text">저장된 클립이 없습니다</div>
+                    {filterTag ? `"${filterTag}" 태그의 클립이 없습니다` : '저장된 클립이 없습니다' }
                 </div>
             ) : (
               <div className="clips-list">
-              {clips.map(c => (
+              {filteredClips.map(c => (
                   <div key={c.id} className="clip-item">
                       <div className="clip-header">
                           <div className="clip-meta">

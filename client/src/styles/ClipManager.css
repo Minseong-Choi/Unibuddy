@@ -13,19 +13,164 @@
     flex-direction: column; /* 세로 배치 */
   }
   
+  /* 클립 매니저 헤더 - 제목과 필터를 가로로 배치 */
+  .clip-manager-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  
   .clip-manager-title {
-    margin: 0 0 0.75rem 0;
+    margin: 0;
     font-size: 1rem;
     font-weight: 700;
     color: #16a34a;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex-shrink: 0; /* 제목이 줄어들지 않도록 */
   }
   
   .clip-manager-title::before {
     content: "📎";
     font-size: 0.9rem;
+  }
+  
+  /* 클립 필터 - 컴팩트 버전 */
+  .clip-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1; /* 남은 공간 활용 */
+    min-width: 0; /* 오버플로우 방지 */
+  }
+  
+  .clip-filter label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    white-space: nowrap; /* 라벨 텍스트 줄바꿈 방지 */
+  }
+  
+  .clip-filter label::before {
+    content: "🔍";
+    font-size: 0.75rem;
+  }
+  
+  .clip-filter select {
+    flex: 1;
+    padding: 0.3rem 0.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    color: #0f172a;
+    font-size: 0.75rem;
+    outline: none;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 80px; /* 최소 폭 보장 */
+    max-width: 120px; /* 최대 폭 제한 */
+  }
+  
+  .clip-filter select:focus {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+    background: #ffffff;
+  }
+  
+  .clip-filter select:hover {
+    border-color: rgba(34, 197, 94, 0.3);
+  }
+  
+  /* 필터 선택 시 스타일 */
+  .clip-filter select[value=""]:not(:focus) {
+    color: #94a3b8;
+    font-style: italic;
+  }
+  
+  .clip-filter select option {
+    padding: 0.25rem;
+    color: #0f172a;
+    font-style: normal;
+    font-size: 0.8rem;
+  }
+  
+  .clip-filter select option[value=""] {
+    color: #94a3b8;
+    font-style: italic;
+  }
+  
+  /* 클립 필터 */
+  .clip-filter {
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(248, 250, 252, 0.8);
+    border-radius: 10px;
+    border: 1px solid rgba(34, 197, 94, 0.15);
+  }
+  
+  .clip-filter label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+  }
+  
+  .clip-filter label::before {
+    content: "🔍";
+    font-size: 0.8rem;
+  }
+  
+  .clip-filter select {
+    flex: 1;
+    padding: 0.4rem 0.75rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    color: #0f172a;
+    font-size: 0.8rem;
+    outline: none;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 0; /* 텍스트가 길어져도 오버플로우 방지 */
+  }
+  
+  .clip-filter select:focus {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    background: #ffffff;
+  }
+  
+  .clip-filter select:hover {
+    border-color: rgba(34, 197, 94, 0.3);
+  }
+  
+  /* 필터 선택 시 스타일 */
+  .clip-filter select[value=""]:not(:focus) {
+    color: #64748b;
+    font-style: italic;
+  }
+  
+  .clip-filter select option {
+    padding: 0.5rem;
+    color: #0f172a;
+    font-style: normal;
+  }
+  
+  .clip-filter select option[value=""] {
+    color: #64748b;
+    font-style: italic;
   }
   
   .clip-error {
