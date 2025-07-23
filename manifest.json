@@ -29,7 +29,8 @@
       }
     ],
     "host_permissions": [
-      "http://localhost:4000/*"
+      "http://localhost:4000/*",
+      "https://unibuddygame.duckdns.org:8443/*"
     ],
     "web_accessible_resources": [
       {
@@ -43,6 +44,6 @@
       }
     ],
     "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' http://localhost:4000; frame-src http://localhost:4000"
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://unibuddygame.duckdns.org:8443; frame-src https://unibuddygame.duckdns.org:8443"
   }
   }

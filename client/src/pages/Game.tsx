@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 
 export default function Game() {
-  const gameUrl = "https://34.47.75.182:8443/game/";
+  const gameUrl = "https://unibuddygame.duckdns.org:8443/game/";
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)' }}>
