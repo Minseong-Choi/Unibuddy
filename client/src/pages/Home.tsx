@@ -122,6 +122,12 @@ export default function Home() {
                   <span className="success-icon">🎉</span>
                   <span className="success-text">로그인 성공!</span>
                 </div>
+                <button onClick={() => {
+                  chrome.storage.local.remove(['jwt','selectedProjectId']);
+                  setJwt(null);
+                }}>
+                  로그아웃
+                </button>
                 <Link to="/game">
                   <button className="btn-game">🎮 게임 시작</button>
                 </Link>
