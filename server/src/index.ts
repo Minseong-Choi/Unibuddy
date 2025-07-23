@@ -52,5 +52,5 @@ const server = http.createServer(app);
 createWebSocketServer(server);
 
 server.listen(PORT, () => {
-  console.log(`Server with WebSocket running on http://localhost:${PORT}`);
+  console.log(`Server with WebSocket running on http://34.47.75.182:${PORT}`);
 });
