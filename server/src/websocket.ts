@@ -85,7 +85,7 @@ export const createWebSocketServer = (server: Server) => {
                     if (Object.keys(restartVotes[roomId]).length === 2) {
                         broadcast({ type: "restartConfirmed" });
                         // 재시작 메시지를 보낸 후, 방 정보를 완전히 초기화합니다.
-                        delete rooms[roomId];
+                        rooms[roomId].clients = [];
                         delete readyStatus[roomId];
                         delete restartVotes[roomId];
                     }
@@ -118,9 +118,12 @@ export const createWebSocketServer = (server: Server) => {
                 remainingClients.forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
                         client.send(JSON.stringify({
+                            type: "error",
+                            message: "상대가 게임을 나갔습니다."
+                        }));
+                        client.send(JSON.stringify({
                             type: "gameOver",
-                            loser: playerNumber,
-                            gameOverMessage: "상대가 게임을 나갔습니다."
+                            loser: playerNumber
                         }));
                     }
                 });
