@@ -24,6 +24,7 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
     const [newContent, setNewContent] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [isAddFormExpanded, setIsAddFormExpanded] = useState(false);
 
     useEffect(() => {
         if (!jwt) return;
@@ -75,6 +76,7 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
             setNewClipTag('');
             setNewUrl('');
             setNewContent('');
+            setIsAddFormExpanded(false); // 추가 후 폼 닫기
           })
           .catch(e => setError(String(e)));
       };
@@ -107,6 +109,10 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
         return url.substring(0, 25) + '...';
       };
 
+      const toggleAddForm = () => {
+        setIsAddFormExpanded(!isAddFormExpanded);
+      };
+
     return (
         <section className="clip-manager-section">
             <h3 className="clip-manager-title">클립 관리</h3>
@@ -124,53 +130,69 @@ export const ClipManager: React.FC<ClipManagerProps> = ({ projectId, jwt, tags }
                     <div className="clips-empty-text">저장된 클립이 없습니다</div>
                 </div>
             ) : (
-                <div className="clips-list">
-                    {clips.map(c => (
-                        <div key={c.id} className="clip-item">
-                            <div className="clip-header">
-                                <div className="clip-meta">
-                                    <span className={`clip-tag ${!c.tag ? 'no-tag' : ''}`}>
-                                        {c.tag || '태그 없음'}
-                                    </span>
-                                    <span className="clip-date">
-                                        {new Date(c.createdAt).toLocaleDateString('ko-KR', {
-                                            month: 'short',
-                                            day: 'numeric',
-                                            hour: '2-digit',
-                                            minute: '2-digit'
-                                        })}
-                                    </span>
-                                </div>
-                                <button 
-                                    className="clip-delete-btn"
-                                    onClick={() => deleteClip(c.id)}
-                                >
-                                    삭제
-                                </button>
-                            </div>
-                            
-                            <div className="clip-url">
-                                <button 
-                                    className="clip-url-btn"
-                                    onClick={() => openUrl(c.url)}
-                                    title={c.url}
-                                >
-                                    <span className="clip-url-text">
-                                        {truncateUrl(c.url)}
-                                    </span>
-                                </button>
-                            </div>
-                            
-                            <div className="clip-content">{c.content}</div>
-                        </div>
-                    ))}
-                </div>
-            )}
-
+              <div className="clips-list">
+              {clips.map(c => (
+                  <div key={c.id} className="clip-item">
+                      <div className="clip-header">
+                          <div className="clip-meta">
+                              <span className={`clip-tag ${!c.tag ? 'no-tag' : ''}`}>
+                                  {c.tag || '태그 없음'}
+                              </span>
+                              <span className="clip-date">
+                                  {new Date(c.createdAt).toLocaleDateString('ko-KR', {
+                                      month: 'short',
+                                      day: 'numeric',
+                                      hour: '2-digit',
+                                      minute: '2-digit'
+                                  })}
+                              </span>
+                          </div>
+                          <div className="clip-actions">
+                              <button 
+                                  className="clip-url-btn"
+                                  onClick={() => openUrl(c.url)}
+                                  title={c.url}
+                              >
+                                  📎
+                              </button>
+                              <button 
+                                  className="clip-delete-btn"
+                                  onClick={() => deleteClip(c.id)}
+                              >
+                                  삭제
+                              </button>
+                          </div>
+                      </div>
+                      
+                      <div className="clip-url">
+                          <button 
+                              className="clip-url-btn"
+                              onClick={() => openUrl(c.url)}
+                              title={c.url}
+                          >
+                              <span className="clip-url-text">
+                                  {truncateUrl(c.url)}
+                              </span>
+                          </button>
+                      </div>
+                      
+                      <div className="clip-content">{c.content}</div>
+                  </div>
+              ))}
+          </div>
+      )}
             <div className="clip-add-form">
-                <h4 className="clip-add-title">새 클립 추가</h4>
+                <div className="clip-add-header" onClick={toggleAddForm}>
+                    <h4 className="clip-add-title">새 클립 추가</h4>
+                    <button 
+                        className={`clip-add-toggle ${isAddFormExpanded ? 'expanded' : ''}`}
+                        type="button"
+                    >
+                        ▼
+                    </button>
+                </div>
                 
-                <div className="clip-form-group">
+                <div className={`clip-form-group ${!isAddFormExpanded ? 'hidden' : ''}`}>
                     <select 
                         className="clip-select"
                         value={newClipTag} 

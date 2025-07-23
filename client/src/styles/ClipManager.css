@@ -6,6 +6,11 @@
     padding: 1rem;
     border: 1px solid rgba(34, 197, 94, 0.2);
     box-shadow: 0 2px 8px rgba(34, 197, 94, 0.08);
+    margin-bottom: 2rem; /* 하단 여백 복원 */
+    width: 100%; /* 폭 고정 */
+    box-sizing: border-box; /* 패딩 포함하여 계산 */
+    display: flex; /* 플렉스 컨테이너 */
+    flex-direction: column; /* 세로 배치 */
   }
   
   .clip-manager-title {
@@ -60,14 +65,41 @@
     100% { transform: rotate(360deg); }
   }
   
-  /* 클립 리스트 - 더 컴팩트하게 */
+  /* 클립 리스트 - 고정 높이로 독립 스크롤 */
   .clips-list {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
     margin-bottom: 1rem;
-    max-height: 300px;
-    overflow-y: auto;
+    max-height: 400px; /* 고정 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤만 허용 */
+    overflow-x: hidden; /* 가로 스크롤 차단 */
+    padding-right: 4px; /* 스크롤바 공간 확보 */
+  }
+  
+  /* 클립 매니저의 다른 요소들은 자연스러운 크기 */
+  .clip-manager-title {
+    /* flex-shrink 제거 - 자연스러운 크기 */
+  }
+  
+  .clip-error {
+    /* flex-shrink 제거 - 자연스러운 크기 */
+  }
+  
+  .clip-loading {
+    /* flex-shrink 제거 - 자연스러운 크기 */
+  }
+  
+  .clips-empty {
+    /* flex-shrink 제거 - 자연스러운 크기 */
+    max-height: 200px; /* 빈 상태도 적당한 높이 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .clip-add-form {
+    /* flex-shrink 제거 - 자연스러운 크기 */
   }
   
   .clip-item {
@@ -101,6 +133,13 @@
     flex: 1;
   }
   
+  .clip-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  
   .clip-tag {
     background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
     color: white;
@@ -123,6 +162,30 @@
     font-weight: 500;
   }
   
+  /* URL을 작은 클립 버튼으로 변경 */
+  .clip-url-btn {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    border: none;
+    border-radius: 6px;
+    padding: 0.25rem;
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    box-shadow: 0 1px 4px rgba(59, 130, 246, 0.3);
+    text-decoration: none;
+  }
+  
+  .clip-url-btn:hover {
+    transform: translateY(-1px) scale(1.1);
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+  }
+  
   .clip-delete-btn {
     background: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.2);
@@ -134,7 +197,9 @@
     transition: all 0.2s ease;
     font-weight: 500;
     flex-shrink: 0;
-    height: fit-content;
+    height: 24px;
+    display: flex;
+    align-items: center;
   }
   
   .clip-delete-btn:hover {
@@ -142,45 +207,9 @@
     border-color: rgba(239, 68, 68, 0.3);
   }
   
-  /* URL을 버튼으로 변경 */
+  /* URL 섹션 제거 */
   .clip-url {
-    margin-bottom: 0.5rem;
-  }
-  
-  .clip-url-btn {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    border: none;
-    border-radius: 8px;
-    padding: 0.4rem 0.75rem;
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    box-shadow: 0 1px 4px rgba(59, 130, 246, 0.3);
-    text-decoration: none;
-    max-width: 100%;
-    overflow: hidden;
-  }
-  
-  .clip-url-btn::before {
-    content: "🔗";
-    font-size: 0.7rem;
-  }
-  
-  .clip-url-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
-  }
-  
-  .clip-url-text {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 150px;
+    display: none;
   }
   
   .clip-content {
@@ -197,16 +226,34 @@
     overflow-y: auto;
   }
   
-  /* 클립 추가 폼 - 컴팩트 */
+  /* 클립 추가 폼 - 토글 형태 */
   .clip-add-form {
     background: rgba(248, 250, 252, 0.6);
     border-radius: 10px;
     padding: 0.75rem;
     border: 1px solid rgba(15, 23, 42, 0.08);
+    width: 100%; /* 명시적 폭 설정 */
+    box-sizing: border-box; /* 패딩 포함하여 계산 */
+  }
+  
+  .clip-add-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.25rem 0;
+    transition: all 0.2s ease;
+  }
+  
+  .clip-add-header:hover {
+    background: rgba(34, 197, 94, 0.05);
+    border-radius: 6px;
+    margin: -0.25rem;
+    padding: 0.5rem;
   }
   
   .clip-add-title {
-    margin: 0 0 0.75rem 0;
+    margin: 0;
     font-size: 0.9rem;
     font-weight: 600;
     color: #1e293b;
@@ -220,10 +267,50 @@
     font-size: 0.8rem;
   }
   
+  .clip-add-toggle {
+    background: none;
+    border: none;
+    color: #16a34a;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+  
+  .clip-add-toggle:hover {
+    background: rgba(34, 197, 94, 0.1);
+    transform: scale(1.1);
+  }
+  
+  .clip-add-toggle.expanded {
+    transform: rotate(180deg);
+  }
+  
+  .clip-add-toggle.expanded:hover {
+    transform: rotate(180deg) scale(1.1);
+  }
+  
   .clip-form-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    margin-top: 0.75rem;
+    transition: all 0.3s ease;
+    width: 100%; /* 폭 고정 */
+    box-sizing: border-box; /* 패딩 포함하여 계산 */
+  }
+  
+  .clip-form-group.hidden {
+    height: 0;
+    overflow: hidden;
+    margin-top: 0;
+    opacity: 0;
   }
   
   .clip-select {
@@ -237,6 +324,8 @@
     transition: all 0.2s ease;
     font-weight: 500;
     cursor: pointer;
+    width: 100%; /* 폭 100%로 고정 */
+    box-sizing: border-box;
   }
   
   .clip-select:focus {
@@ -255,6 +344,8 @@
     outline: none;
     transition: all 0.2s ease;
     font-weight: 500;
+    width: 100%; /* 폭 100%로 고정 */
+    box-sizing: border-box;
   }
   
   .clip-input::placeholder {
@@ -282,6 +373,8 @@
     resize: vertical;
     min-height: 60px;
     max-height: 100px;
+    width: 100%; /* 폭 100%로 고정 */
+    box-sizing: border-box;
   }
   
   .clip-textarea::placeholder {
@@ -307,6 +400,8 @@
     font-size: 0.8rem;
     box-shadow: 0 2px 6px rgba(34, 197, 94, 0.3);
     margin-top: 0.25rem;
+    width: 100%; /* 폭 100%로 고정 */
+    box-sizing: border-box;
   }
   
   .clip-submit-btn:hover {

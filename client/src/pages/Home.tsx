@@ -74,7 +74,7 @@ export default function Home() {
       <div className="header">
         <div className="header-brand">
           <div className="brand-icon">📎</div>
-          <h1 className="brand-title">UniClip</h1>
+          <h1 className="brand-title">Unibuddy</h1>
         </div>
       </div>
 

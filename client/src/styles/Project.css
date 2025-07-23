@@ -1,13 +1,29 @@
 /* pages/Project.css - Compact & Cute Version */
 
 .project-container {
-  width: 100%;
-  max-width: 400px;
+  width: 100%; /* 화면의 20%에 맞춰서 100% 사용 */
+  max-width: 100vw; /* 뷰포트 너비를 넘지 않도록 */
+  min-height: 100vh;
   background: linear-gradient(135deg, #f0f4ff 0%, #e0f2fe 100%);
   color: #1e293b;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  padding: 1rem;
+  padding: 0.75rem;
   box-sizing: border-box;
+  overflow-x: hidden; /* 가로 스크롤 방지 */
+}
+
+/* 화면이 매우 작을 때를 위한 최소 폭 설정 */
+@media (max-width: 1200px) {
+  .project-container {
+    min-width: 240px; /* 최소 240px 보장 */
+  }
+}
+
+/* 화면이 클 때를 위한 최대 폭 제한 */
+@media (min-width: 2000px) {
+  .project-container {
+    max-width: 400px; /* 너무 커지지 않도록 제한 */
+  }
 }
 
 .project-header {
