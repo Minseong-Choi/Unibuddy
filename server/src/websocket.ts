@@ -1,5 +1,5 @@
 import { WebSocketServer, WebSocket } from 'ws';
-import { Server } from 'http';
+import { Server } from 'https';
 import url from 'url';
 
 interface Room {

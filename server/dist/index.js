@@ -7,7 +7,8 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
-const http_1 = __importDefault(require("http"));
+const fs_1 = __importDefault(require("fs"));
+const https_1 = __importDefault(require("https"));
 const auth_1 = __importDefault(require("./routes/auth"));
 const projects_1 = __importDefault(require("./routes/projects"));
 const tags_1 = __importDefault(require("./routes/tags"));
@@ -16,7 +17,7 @@ const auth_2 = require("./middleware/auth");
 const websocket_1 = require("./websocket");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const PORT = process.env.PORT ?? 4000;
+const PORT = process.env.PORT ?? 8443;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -47,8 +48,16 @@ app.get('/check-room/:roomId', (req, res) => {
         res.json({ exists: false, full: false });
     }
 });
-const server = http_1.default.createServer(app);
+// 🔐 HTTPS 인증서 로딩
+const sslOptions = {
+    key: fs_1.default.readFileSync('/etc/letsencrypt/duckdns/privkey.pem'),
+    cert: fs_1.default.readFileSync('/etc/letsencrypt/duckdns/fullchain.pem')
+};
+// ✅ HTTPS 서버 생성
+const server = https_1.default.createServer(sslOptions, app);
+// ✅ WebSocket 서버 생성
 (0, websocket_1.createWebSocketServer)(server);
+// ✅ HTTPS로 실행
 server.listen(PORT, () => {
-    console.log(`Server with WebSocket running on http://34.47.75.182:${PORT}`);
+    console.log(`✅ HTTPS + WebSocket server running at https://34.47.75.182:${PORT}`);
 });

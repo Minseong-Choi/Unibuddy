@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
-import http from 'http';
+import fs from 'fs';
+import https from 'https';
 import authRouter from './routes/auth';
 import projectsRouter from './routes/projects';
 import tagsRouter from './routes/tags';
@@ -13,7 +14,8 @@ import { createWebSocketServer, rooms } from './websocket';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT ?? 4000;
+const PORT = process.env.PORT ?? 8443;
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -46,11 +48,19 @@ app.get('/check-room/:roomId', (req, res) => {
   }
 });
 
+// 🔐 HTTPS 인증서 로딩
+const sslOptions = {
+  key: fs.readFileSync('/etc/letsencrypt/duckdns/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/duckdns/fullchain.pem')
+};
 
-const server = http.createServer(app);
+// ✅ HTTPS 서버 생성
+const server = https.createServer(sslOptions, app);
 
+// ✅ WebSocket 서버 생성
 createWebSocketServer(server);
 
+// ✅ HTTPS로 실행
 server.listen(PORT, () => {
-  console.log(`Server with WebSocket running on http://34.47.75.182:${PORT}`);
+  console.log(`✅ HTTPS + WebSocket server running at https://34.47.75.182:${PORT}`);
 });
