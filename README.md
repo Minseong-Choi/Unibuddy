@@ -1,6 +1,9 @@
 # Unibuddy
 A React based Chrome Extension(MadCamp Week3)
 
+노션 소개 페이지 자료
+[Unibuddy.pdf](https://github.com/user-attachments/files/23468382/Unibuddy.pdf)
+
 ![image.png](attachment:a129de97-9852-46f8-9026-beb9acf005b9:image.png)
 
 # 팀원 소개
